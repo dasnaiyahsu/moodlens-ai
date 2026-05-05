@@ -1,7 +1,8 @@
 streamlit
 transformers
-torch
+torch --index-url https://download.pytorch.org/whl/cpu
 deepface
 opencv-python-headless
 numpy
 tf-keras
+huggingface-hub
