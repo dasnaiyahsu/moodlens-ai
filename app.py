@@ -81,7 +81,6 @@ with tab1:
             except:
                 st.error("Face not found. Please try another angle!")
 
-# --- TAB 2: JOURNAL ---
 with tab2:
     st.write("### Speak your heart out")
     user_text = st.text_area("", placeholder="I feel so happy today because...", height=150)
@@ -90,25 +89,24 @@ with tab2:
         if user_text.strip():
             with st.spinner("AI is feeling with you..."):
                 try:
-                    current_dir = os.path.dirname(os.path.abspath(__file__))
-                    model_path = os.path.join(current_dir, "emotion_model2")
+                    # Kita pakai model publik yang speknya sama dengan training kamu
+                    # Jadi kamu nggak perlu upload folder emotion_model2 ke GitHub
+                    model_name = "bhadresh-savani/bert-base-uncased-emotion"
                     
-                    classifier = pipeline("text-classification", model=model_path)
+                    classifier = pipeline("text-classification", model=model_name)
                     res = classifier(user_text)[0]
                     
-                    label_dict = {
-                        "LABEL_0": "sadness", "LABEL_1": "joy", "LABEL_2": "love",
-                        "LABEL_3": "anger", "LABEL_4": "fear", "LABEL_5": "surprise"
-                    }
-                    detected = label_dict.get(res['label'].upper(), "neutral")
+                    # Mapping emosi otomatis dari model ini
+                    detected = res['label'].lower() 
                     color, music, quote = get_mood_recommendation(detected)
                     
+                    st.success(f"AI detects your mood as: **{detected.capitalize()}**")
                     st.markdown(f"""
                     <div class="mood-card" style="background-color: {color}44;">
                         <h1 style="margin:0;">{detected.upper()}</h1>
-                        <hr style="border: 0.5px solid #333;">
+                        <hr>
                         <h3 style="color: #1d1d1f; font-style: italic;">"{quote}"</h3>
-                        <p style="font-size: 1.2rem; color: #424245;">🎵 <b>Mood Playlist:</b> {music}</p>
+                        <p>🎵 <b>Mood Playlist:</b> {music}</p>
                     </div>
                     """, unsafe_allow_html=True)
                 except Exception as e:
