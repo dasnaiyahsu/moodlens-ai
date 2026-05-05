@@ -1,6 +1,7 @@
 streamlit
-transformers
-torch
 opencv-python-headless
 deepface
+transformers
+torch
 tf-keras
+tensorflow-cpu
