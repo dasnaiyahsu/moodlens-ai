@@ -1,6 +1,6 @@
 streamlit
-opencv-python-headless
-deepface
+opencv-python-headless==4.8.0.74
+deepface==0.0.79
 transformers
 torch
 tf-keras
