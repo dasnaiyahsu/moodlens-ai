@@ -2,8 +2,7 @@ streamlit
 transformers
 torch
 torchvision
-opencv-python-headless
+pillow
 numpy<2
-deepface
 huggingface-hub
 tf-keras
