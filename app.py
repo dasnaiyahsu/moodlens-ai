@@ -1,17 +1,14 @@
-import os
 import streamlit as st
 import numpy as np
 from transformers import pipeline
 from mood_logic import get_mood_recommendation
 
-# --- PAGE CONFIG ---
 st.set_page_config(
     page_title="MoodLens AI",
     page_icon="✨",
     layout="centered"
 )
 
-# --- STYLE ---
 st.markdown("""
 <style>
 .main {
@@ -39,28 +36,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER ---
 st.title("✨ MoodLens")
 st.subheader("Your AI Emotion Companion")
 st.markdown("---")
 
-# --- LOAD TEXT MODEL ---
 @st.cache_resource
 def load_emotion_model():
     return pipeline(
         "text-classification",
         model="dasnaiyahsu/emotion_model2"
     )
-classifier = load_emotion_model()
 
 tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
 
-# --- TABS ---
-tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
-
-# ==========================================================
-# TAB 1 - FACE EMOTION
-# ==========================================================
 with tab1:
     st.write("### How's your face today?")
     picture = st.camera_input("Take a photo")
@@ -68,7 +56,6 @@ with tab1:
     if picture is not None:
         with st.spinner("Reading your expression..."):
             try:
-                # import di sini supaya app tetap bisa boot
                 import cv2
                 from deepface import DeepFace
 
@@ -82,7 +69,6 @@ with tab1:
                     enforce_detection=False
                 )
 
-                # kompatibel beberapa versi deepface
                 if isinstance(result, list):
                     dom_emotion = result[0]["dominant_emotion"]
                 else:
@@ -102,9 +88,6 @@ with tab1:
             except Exception as e:
                 st.error(f"Face analysis failed: {e}")
 
-# ==========================================================
-# TAB 2 - TEXT EMOTION
-# ==========================================================
 with tab2:
     st.write("### Speak your heart out")
 
@@ -118,6 +101,7 @@ with tab2:
         if user_text.strip():
             with st.spinner("AI is feeling with you..."):
                 try:
+                    classifier = load_emotion_model()
                     result = classifier(user_text)[0]
 
                     detected = result["label"].lower()
