@@ -2,5 +2,8 @@ streamlit
 transformers
 torch
 opencv-python-headless
-numpy
+numpy<2
 huggingface-hub
+deepface
+tensorflow
+tf-keras
