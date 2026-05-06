@@ -44,7 +44,7 @@ st.markdown("---")
 def load_emotion_model():
     return pipeline(
         "text-classification",
-        model="dasnaiyahsu/emotion_model2"
+        model="dasnaiyahsu/moodlens-ai"
     )
 
 tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
