@@ -1,5 +1,5 @@
 import streamlit as st
-import numpy as np
+from PIL import Image
 from transformers import pipeline
 from mood_logic import get_mood_recommendation
 
@@ -41,10 +41,17 @@ st.subheader("Your AI Emotion Companion")
 st.markdown("---")
 
 @st.cache_resource
-def load_emotion_model():
+def load_text_model():
     return pipeline(
         "text-classification",
         model="Dasnaiya/moodlens-emotion"
+    )
+
+@st.cache_resource
+def load_face_model():
+    return pipeline(
+        "image-classification",
+        model="dima806/facial_emotions_image_detection"
     )
 
 tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
@@ -56,23 +63,11 @@ with tab1:
     if picture is not None:
         with st.spinner("Reading your expression..."):
             try:
-                import cv2
-                from deepface import DeepFace
+                image = Image.open(picture)
+                face_classifier = load_face_model()
+                result = face_classifier(image)[0]
 
-                bytes_data = picture.getvalue()
-                np_array = np.frombuffer(bytes_data, np.uint8)
-                cv2_img = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
-
-                result = DeepFace.analyze(
-                    cv2_img,
-                    actions=["emotion"],
-                    enforce_detection=False
-                )
-
-                if isinstance(result, list):
-                    dom_emotion = result[0]["dominant_emotion"]
-                else:
-                    dom_emotion = result["dominant_emotion"]
+                dom_emotion = result["label"].lower()
 
                 color, music, quote = get_mood_recommendation(dom_emotion)
 
@@ -101,7 +96,7 @@ with tab2:
         if user_text.strip():
             with st.spinner("AI is feeling with you..."):
                 try:
-                    classifier = load_emotion_model()
+                    classifier = load_text_model()
                     result = classifier(user_text)[0]
 
                     detected = result["label"].lower()
