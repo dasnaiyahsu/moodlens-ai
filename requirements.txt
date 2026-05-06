@@ -1,6 +1,7 @@
 streamlit
 transformers
 torch
+torchvision
 numpy<2
 huggingface-hub
 opencv-python-headless==4.8.1.78
