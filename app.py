@@ -44,7 +44,7 @@ st.markdown("---")
 def load_emotion_model():
     return pipeline(
         "text-classification",
-        model="dasnaiyahsu/moodlens-ai"
+        model="Dasnaiya/moodlens-emotion"
     )
 
 tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
@@ -110,7 +110,7 @@ with tab2:
                     color, music, quote = get_mood_recommendation(detected)
 
                     st.success(
-                        f"AI detects your mood as: "
+                        f"AI detects your mood as "
                         f"**{detected.capitalize()}** "
                         f"({confidence:.1f}% confidence)"
                     )
