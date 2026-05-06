@@ -40,6 +40,15 @@ st.title("✨ MoodLens")
 st.subheader("Your AI Emotion Companion")
 st.markdown("---")
 
+label_map = {
+    "label_0": "sad",
+    "label_1": "angry",
+    "label_2": "happy",
+    "label_3": "fear",
+    "label_4": "love",
+    "label_5": "surprise"
+}
+
 @st.cache_resource
 def load_text_model():
     return pipeline(
@@ -99,7 +108,8 @@ with tab2:
                     classifier = load_text_model()
                     result = classifier(user_text)[0]
 
-                    detected = result["label"].lower()
+                    raw_label = result["label"].lower()
+                    detected = label_map.get(raw_label, raw_label)
                     confidence = result["score"] * 100
 
                     color, music, quote = get_mood_recommendation(detected)
