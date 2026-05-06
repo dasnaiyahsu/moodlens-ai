@@ -47,10 +47,10 @@ st.markdown("---")
 # --- LOAD TEXT MODEL ---
 @st.cache_resource
 def load_emotion_model():
-    model_path = os.path.join(os.path.dirname(__file__), "emotion_model2")
-    return pipeline("text-classification", model=model_path)
-
-classifier = load_emotion_model()
+    return pipeline(
+        "text-classification",
+        model="dasnaiyahsu/emotion_model2"
+    )
 
 # --- TABS ---
 tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
