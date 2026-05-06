@@ -51,6 +51,9 @@ def load_emotion_model():
         "text-classification",
         model="dasnaiyahsu/emotion_model2"
     )
+classifier = load_emotion_model()
+
+tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
 
 # --- TABS ---
 tab1, tab2 = st.tabs(["📸 Mirror", "✍️ Journal"])
